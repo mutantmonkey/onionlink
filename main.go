@@ -58,7 +58,6 @@ func makeFileHandler(path string) func(http.ResponseWriter, *http.Request) {
 
 		f, err := os.Open(path)
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
 		}
