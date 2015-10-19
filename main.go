@@ -63,6 +63,7 @@ func makeFileHandler(path string) func(http.ResponseWriter, *http.Request) {
 		}
 		defer f.Close()
 
+		log.Printf("Received %v for %q", r.Method, r.URL.Path)
 		http.ServeFile(w, r, path)
 	}
 	return handler
@@ -94,7 +95,6 @@ func main() {
 	if err != nil {
 		log.Fatal("Failed to derive onion address: ", err)
 	}
-	log.Printf("%v", addr)
 
 	// Note: this requires Tor 0.2.7.x
 	l, err := c.Listener(80, pk)
@@ -103,14 +103,14 @@ func main() {
 	}
 	defer l.Close()
 
-	log.Printf("Listener: %s", l.Addr())
+	log.Printf("Opened listener on %s", l.Addr())
 
 	http.HandleFunc("/", indexHandler)
 
 	flag.Parse()
 	for _, arg := range flag.Args() {
 		path := fmt.Sprintf("/%v", generateFilename(arg))
-		log.Printf("%v: %v", arg, path)
+		log.Printf("Serving %v at http://%s.onion%v", arg, addr, path)
 		http.HandleFunc(path, makeFileHandler(arg))
 	}
 
