@@ -1,5 +1,9 @@
 # onionlink
 
+**NOTE:** This app has not been updated since 2015 and should be considered
+deprecated. If you need this functionality, I recommend that you use
+[OnionShare](https://github.com/micahflee/onionshare).
+
 Very simple peer-to-peer file sharing using Onion services.
 
 ## Prerequisites
